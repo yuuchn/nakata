@@ -31,15 +31,14 @@ type CounterChaincode struct {
 
 // カウンター情報
 type Counter struct {
-	Name string 'json:"name"'
-	Counts unit64 'json:"counts"'
+	Name string `json:"name"`
+	Counts int `json:"counts"`
 }
 
 const numOfCounters int = 3
 
 // カウンター情報の初期値を設定
-func (cc *CounterChaincode) Init(stub *shim.ChaincodeStub, function string, args []string) 
-([]byte, error) {
+func (cc *CounterChaincode) Init(stub *shim.ChaincodeStub, function string, args []string)   ([]byte, error) {
 	var counters [numOfCounters]Counter
 	var countersBytes [numOfCounters][]byte
 	
@@ -60,8 +59,7 @@ func (cc *CounterChaincode) Init(stub *shim.ChaincodeStub, function string, args
 }
 
 // カウンター情報を更新
-func (cc *CounterChaincode) Invoke(stub *shim.ChaincodeStub, function string, args []string) 
-([]byte, error) {
+func (cc *CounterChaincode) Invoke(stub *shim.ChaincodeStub, function string, args []string) ([]byte, error) {
 	// function名でハンドリング
 	if funtion == "countUp" {
 		// カウントアップを実行
@@ -73,8 +71,7 @@ func (cc *CounterChaincode) Invoke(stub *shim.ChaincodeStub, function string, ar
 
 
 // カウンター情報を参照
-func (cc *CounterChaincode) Query(stub *shim.ChaincodeStub, function string, args []string) 
-([]byte, error) {
+func (cc *CounterChaincode) Query(stub *shim.ChaincodeStub, function string, args []string) ([]byte, error) {
 	// function名でハンドリング
 	if function == "refresh" {
 		// カウンター情報を取得
@@ -85,8 +82,7 @@ func (cc *CounterChaincode) Query(stub *shim.ChaincodeStub, function string, arg
 }
 
 // カウントアップを実行
-func (cc *CounterChaincode) countUp(stub *shim.ChaincodeStub, args []string) 
-([]byte, error) {
+func (cc *CounterChaincode) countUp(stub *shim.ChaincodeStub, args []string) ([]byte, error) {
 	// ワールドステートから選択されたカウンター情報を取得
 	counterId := args[0]
 	counterJson, _ := stub.GetState(counterId)
